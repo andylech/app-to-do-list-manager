@@ -14,8 +14,8 @@
   <mp:PhoneIdentity PhoneProductId="ec0cc741-fd3e-485c-81be-68815c480690" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>ToDoListManager.UWP</DisplayName>
-    <PublisherDisplayName>9d182a42-0c7e-4f86-b61d-5125986d852d</PublisherDisplayName>
+    <DisplayName>To-Do List Manager</DisplayName>
+    <PublisherDisplayName>The Xamarin Files</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -32,10 +32,10 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="ToDoListManager.UWP.App">
       <uap:VisualElements
-        DisplayName="ToDoListManager.UWP"
+        DisplayName="To-Do List Manager"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="ToDoListManager.UWP"
+        Description="To-Do List Manager"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png">
           <uap:ShowNameOnTiles>
