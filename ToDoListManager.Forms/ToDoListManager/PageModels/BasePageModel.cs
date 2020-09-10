@@ -21,7 +21,7 @@ namespace ToDoListManager.PageModels
         {
             NavState = navState;
 
-            // TODO LoggingService.WriteHeader(PageName);
+            LoggingService.WriteHeader(PageName);
         }
 
         #endregion
@@ -83,7 +83,7 @@ namespace ToDoListManager.PageModels
                 }
                 catch (Exception exception)
                 {
-                    // TODO MessagingService.SendErrorMessage(exception);
+                    MessagingService.SendErrorMessage(exception);
                 }
             });
 
@@ -100,10 +100,9 @@ namespace ToDoListManager.PageModels
 
             try
             {
-                /* TODO LoggingService.WriteSubheader("Navigation initiated");
+                LoggingService.WriteSubheader("Navigation initiated");
                 LoggingService.WriteValue("Current Page", currentPage);
                 LoggingService.WriteValue("Next Page", nextPage);
-                */
 
                 switch (nextPage)
                 {
@@ -124,7 +123,7 @@ namespace ToDoListManager.PageModels
             }
             catch (Exception exception)
             {
-                // TODO MessagingService.SendErrorMessage(exception);
+                MessagingService.SendErrorMessage(exception);
             }
         }
 

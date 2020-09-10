@@ -1,6 +1,7 @@
 ﻿using System;
 using ToDoListManager.Models;
 using ToDoListManager.Resources;
+using static ToDoListManager.App;
 
 namespace ToDoListManager.Pages
 {
@@ -34,7 +35,7 @@ namespace ToDoListManager.Pages
             }
             catch (Exception exception)
             {
-                // TODO App.MessagingService.SendErrorMessage(exception);
+                MessagingService.SendErrorMessage(exception);
             }
 
             return pageTitle;

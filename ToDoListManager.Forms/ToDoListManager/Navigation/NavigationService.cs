@@ -4,9 +4,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using FancyLogger;
 using ToDoListManager.Models;
 using ToDoListManager.PageModels;
 using Xamarin.Forms;
+using static ToDoListManager.App;
 using static ToDoListManager.Models.AppSection;
 
 namespace ToDoListManager.Navigation
@@ -33,10 +35,6 @@ namespace ToDoListManager.Navigation
 
         #region Service Mappings
 
-        // TODO private static FancyLoggerService LoggingService => App.LoggingService;
-
-        // TODO private static MessagingService MessagingService => App.MessagingService;
-
         #endregion
 
         #region Interface
@@ -61,8 +59,8 @@ namespace ToDoListManager.Navigation
                 // Same PageModel used for multiple Pages
                 if (_pageModelPageDictionary.ContainsKey(pageModelKey))
                 {
-                    // TODO LoggingService.WriteWarning(
-                    //    $"Skipping second {pageValue} declared for {pageModelKey}");
+                    LoggingService.WriteWarning(
+                        $"Skipping second {pageValue} declared for {pageModelKey}");
 
                     continue;
                 }
@@ -71,7 +69,7 @@ namespace ToDoListManager.Navigation
                 SavePageForPageModel(pageModelKey, pageValue);
             }
 
-            // TODO LoggingService.WriteDictionary(_pageModelPageDictionary, "PageModels -> Pages");
+            LoggingService.WriteDictionary(_pageModelPageDictionary, "PageModels -> Pages");
         }
 
         // Useful for keeping a shared page on the navigation stack (like a home page)
@@ -260,7 +258,7 @@ namespace ToDoListManager.Navigation
             }
             catch (Exception exception)
             {
-                // TODO MessagingService.SendErrorMessage(exception);
+                MessagingService.SendErrorMessage(exception);
             }
 
             return pageFor;
@@ -270,14 +268,14 @@ namespace ToDoListManager.Navigation
         {
             var stackList = FormsNavigation.ModalStack.ToList();
 
-            // TODO LoggingService.WriteList(stackList, $"Modal Stack after {stackChange}");
+            LoggingService.WriteList(stackList, $"Modal Stack after {stackChange}");
         }
 
         private void PrintNavigationStackDepth(string stackChange)
         {
             var stackList = FormsNavigation.NavigationStack.ToList();
 
-            // TODO LoggingService.WriteList(stackList, $"Navigation Stack after {stackChange}");
+            LoggingService.WriteList(stackList, $"Navigation Stack after {stackChange}");
         }
 
         private void SavePageForPageModel(Type pageModelType, Type pageType)

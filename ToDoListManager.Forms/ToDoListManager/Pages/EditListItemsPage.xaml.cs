@@ -1,6 +1,7 @@
 ﻿using System;
 using ToDoListManager.PageModels;
 using Xamarin.Forms.Xaml;
+using static ToDoListManager.App;
 
 namespace ToDoListManager.Pages
 {
@@ -17,7 +18,7 @@ namespace ToDoListManager.Pages
             }
             catch (Exception exception)
             {
-                // TODO MessagingService.SendErrorMessage(exception);
+                MessagingService.SendErrorMessage(exception);
             }
         }
 

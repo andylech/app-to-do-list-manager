@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Reflection;
+using FancyLogger;
 using ToDoListManager.Models;
 using ToDoListManager.Navigation;
 using ToDoListManager.PageModels;
+using ToDoListManager.Services;
+using ToDoListManager.Services.Api;
+using ToDoListManager.Services.Messaging;
 using Xamarin.Forms;
 
 namespace ToDoListManager
@@ -22,7 +26,7 @@ namespace ToDoListManager
         {
             try
             {
-                // TODO ServiceManager = new ServiceManager();
+                ServiceManager = new ServiceManager();
 
                 InitializeComponent();
 
@@ -38,7 +42,7 @@ namespace ToDoListManager
             }
             catch (Exception exception)
             {
-                // TODO MessagingService?.SendErrorMessage(exception);
+                MessagingService?.SendErrorMessage(exception);
             }
         }
 
@@ -67,7 +71,7 @@ namespace ToDoListManager
 
         internal static INavigationService NavService { get; private set; }
 
-        /* TODO private static ServiceManager ServiceManager { get; private set; }
+        private static ServiceManager ServiceManager { get; set; }
 
         internal static FancyLoggerService LoggingService =>
             ServiceManager.LoggingService;
@@ -75,10 +79,8 @@ namespace ToDoListManager
         internal static MessagingService MessagingService =>
             ServiceManager.MessagingService;
 
-        internal static ToDoListManagerApiService ToDoApiService =>
-            ServiceManager.ToDoListManagerApiService;
-
-        */
+        internal static ToDoListApiService ToDoListApiService =>
+            ServiceManager.ToDoListApiService;
 
         #endregion
 
