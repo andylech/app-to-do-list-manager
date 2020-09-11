@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ToDoListManager.Data.Responses
 {
@@ -11,5 +12,7 @@ namespace ToDoListManager.Data.Responses
         public bool Deleted { get; set; }
 
         public IEnumerable<string> ItemIds { get; set; }
+
+        public DateTimeOffset SavedTimestamp { get; set; }
     }
 }

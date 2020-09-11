@@ -1,4 +1,6 @@
-﻿namespace ToDoListManager.Data.Responses
+﻿using System;
+
+namespace ToDoListManager.Data.Responses
 {
     public class ToDoItem
     {
@@ -12,6 +14,6 @@
 
         public string ListId { get; set; }
 
-        public string PreviousId { get; set; }
+        public DateTimeOffset SavedTimestamp { get; set; }
     }
 }
