@@ -1,4 +1,5 @@
 ﻿using System;
+using static ToDoListManager.Services.ServiceManager;
 
 namespace ToDoListManager.Services.Messaging
 {
@@ -16,8 +17,7 @@ namespace ToDoListManager.Services.Messaging
 
         public void SendErrorMessage(Exception exception)
         {
-            // TEMP
-            ServiceManager.LoggingService?.WriteException(exception);
+            LoggingService?.WriteException(exception);
         }
 
         // TODO

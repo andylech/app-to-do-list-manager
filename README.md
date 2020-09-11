@@ -37,7 +37,7 @@ https://app.gitkraken.com/glo/board/X1lZaz2bBQARvJyD
 
 ### Dependencies
 
-* FancyLogger: My own NuGet for formatting output, particularly to DEBUG, so it won't be lost in the clutter of Android logs in particular.  Also, works well with [VSColorOutput](https://mike-ward.net/vscoloroutput/).
+* [FancyLogger](https://github.com/xamarinfiles/library-fancy-logger): My own NuGet for formatting output, particularly to DEBUG, so it won't be lost in the clutter of Android logs in particular.  Also, works well with [VSColorOutput](https://mike-ward.net/vscoloroutput/).
 * [Akavache](https://github.com/reactiveui/Akavache): Asynchronous, persistent key-value based on SQLite.
 * **TODO**
 
