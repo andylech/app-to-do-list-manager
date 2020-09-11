@@ -26,13 +26,23 @@ https://app.gitkraken.com/glo/board/X1lZaz2bBQARvJyD
 
 ---
 
-### Dependencies
+### API Design
 
-* FancyLogger: My own NuGet for formatting output, particularly to DEBUG, so it won't be lost in the clutter of Android logs in particular.  Also, works well with [VSColorOutput](https://mike-ward.net/vscoloroutput/).
+* No live API was provided, nor was an API design or interface specified.  I chose to anticipate a REST API that could accomodate local NoSQL-style caching with Akavache in a SQLite DB.  This approach was chosen to allow the API to be the "source of truth" but allow for synchronization across multiple devices.  Specifically, it avoids the issue of distributed DBs keeping distinct copies that need to be synchronized while likely downloading the same static data multiple times.
+* Further, retaining a temporary copy of the user's data allows for interaction in a disconnected state as often happens with mobile devices.
+* In my mind, the API will be more of a "point-in-time" type architecture where new entries will be added to replace old ones when list items are updated.  Because the collection of ids attached to a list will also be updated, this allows for a transactional history of modifications to a single list or across lists.  This would be easier to implement in a DB behind an API than in a flat SQLite DB for local cache, but it at least allows for the flexibility.
 
 ---
 
-### Caveats
+### Dependencies
 
-* I could easily use an IoC container to handle constructor injection, replace the Services.ServiceManager and make other improvements, but I was trying not to overdue the dependencies of this simple demo project.
+* FancyLogger: My own NuGet for formatting output, particularly to DEBUG, so it won't be lost in the clutter of Android logs in particular.  Also, works well with [VSColorOutput](https://mike-ward.net/vscoloroutput/).
+* **TODO**
+
+---
+
+### Caveats/Notes
+
+* I could easily have used an IoC container to handle constructor injection, replace the ServiceManager and make other improvements.  But I was trying not to overdue the dependencies of this simple demo project.
 * The messaging service used here is a simple static one for displaying exceptions.  A full-blown app could, of course, use Xamarin.Forms MessagingCenter for things like analytics reporting, displaying alerts when not convenient (PageModels), etc.
+* When consuming a real REST API, I typically use [Refit](https://github.com/reactiveui/refit) to avoid most of the HttpClient boilerplate code.
