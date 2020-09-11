@@ -4,7 +4,8 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  IgnorableNamespaces="uap mp">
+  xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
+  IgnorableNamespaces="uap mp desktop4">
 
   <Identity
     Name="7d5deb9f-a1a1-474d-86d0-edc9bf6d2e14"
@@ -30,7 +31,8 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="ToDoListManager.UWP.App">
+      EntryPoint="ToDoListManager.UWP.App"
+      desktop4:SupportsMultipleInstances="true">
       <uap:VisualElements
         DisplayName="To-Do List Manager"
         Square150x150Logo="Assets\Square150x150Logo.png"
