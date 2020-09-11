@@ -1,6 +1,7 @@
 ﻿using System;
 using FancyLogger;
 using ToDoListManager.Services.Api;
+using ToDoListManager.Services.Caching;
 using ToDoListManager.Services.Messaging;
 
 namespace ToDoListManager.Services
@@ -17,10 +18,12 @@ namespace ToDoListManager.Services
 
         #region Constructors
 
-        public ServiceManager()
+        public ServiceManager(string appName)
         {
             try
             {
+                CachingService = new CachingService(appName);
+
                 LoggingService = new FancyLoggerService();
 
                 MessagingService = new MessagingService();
@@ -36,6 +39,8 @@ namespace ToDoListManager.Services
         #endregion
 
         #region Public
+
+        public static CachingService CachingService { get; private set;  }
 
         public static FancyLoggerService LoggingService { get; private set; }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using FancyLogger;
 using ToDoListManager.Models;
@@ -6,6 +7,7 @@ using ToDoListManager.Navigation;
 using ToDoListManager.PageModels;
 using ToDoListManager.Services;
 using ToDoListManager.Services.Api;
+using ToDoListManager.Services.Caching;
 using ToDoListManager.Services.Messaging;
 using Xamarin.Forms;
 
@@ -26,19 +28,16 @@ namespace ToDoListManager
         {
             try
             {
-                ServiceManager = new ServiceManager();
+                ServiceManager = new ServiceManager(ApplicationName);
 
                 InitializeComponent();
 
                 NavService = new NavigationService(Assembly);
 
-                MainPage = new MainPage();
-
                 MainPage = new NavigationPage();
                 // TODO Move initiation into NavService method
                 NavService.PushAsync(typeof(EditListItemsPageModel),
                     new NavigationState(AppSection.ListManagement));
-
             }
             catch (Exception exception)
             {
@@ -57,6 +56,8 @@ namespace ToDoListManager
 
         protected override void OnSleep()
         {
+            CachingService.Shutdown();
+
             // Handle when your app sleeps
         }
 
@@ -73,22 +74,25 @@ namespace ToDoListManager
 
         private static ServiceManager ServiceManager { get; set; }
 
+        internal static ToDoListApiService ApiService =>
+            ServiceManager.ToDoListApiService;
+
+        internal static CachingService CachingService =>
+            ServiceManager.CachingService;
+
         internal static FancyLoggerService LoggingService =>
             ServiceManager.LoggingService;
 
         internal static MessagingService MessagingService =>
             ServiceManager.MessagingService;
 
-        internal static ToDoListApiService ToDoListApiService =>
-            ServiceManager.ToDoListApiService;
-
         #endregion
 
         #region Properties
 
-        #endregion
-
-        #region Private
+        // TODO Use DependencyService to get from current build configuration when add
+        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+        public static string ApplicationName => "To-Do List Manager";
 
         #endregion
     }
