@@ -107,9 +107,11 @@ namespace ToDoListManager.PageModels
                 switch (nextPage)
                 {
                     case PageType.EditListItems:
-                        // Make root page of app
-                        await NavService.ReplaceRootAsync(typeof(EditListItemsPageModel),
-                            navState);
+                        //// Make root page of app
+                        //await NavService.ReplaceRootAsync(typeof(EditListItemsPageModel),
+                        //    navState);
+                        // TEMP While only 2 pages and start on EditListItems, can simplify
+                        await NavService.PopAsync();
                         break;
                     case PageType.EditLists:
                         // Push onto nav stack as child page
