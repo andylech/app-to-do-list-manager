@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using ToDoListManager.Data.Responses;
 using static ToDoListManager.App;
 using static ToDoListManager.Services.Messaging.MessagingService;
 
@@ -8,8 +9,7 @@ namespace ToDoListManager.Models
     {
         #region Constructors
 
-        public NavigationState(AppSection appSection,
-            Guid? listSelected = null)
+        public NavigationState(AppSection appSection, ToDoList listSelected = null)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace ToDoListManager.Models
         public AppSection AppSectionSelected { get; }
 
         // Identifier for currently selected list (if any)
-        public Guid? ListSelected { get; }
+        public ToDoList ListSelected{ get; }
 
         #endregion
     }

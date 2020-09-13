@@ -16,12 +16,12 @@ namespace ToDoListManager.Pages
                 // Override page title from PageType to make user-friendly or appropriate
                 switch (pageType)
                 {
-                    /* TODO Access page name
                     case PageType.EditListItems:
-                        pageTitle = < List Name >;
+                        pageTitle = navState.ListSelected?.Name
+                            // NOTE This should only appear during development
+                            ?? Strings.EditListItemsPageTitle;
 
                         break;
-                    */
                     case PageType.EditLists:
                         pageTitle = Strings.EditListsPageTitle;
 
