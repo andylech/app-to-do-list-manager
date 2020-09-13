@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 
 <!--  TODO xmlns:controls="clr-namespace:ToDoListManager.Controls"  -->
 <pages:BasePage
@@ -27,7 +27,7 @@
                          Spacing="20">
                 <Label Text="{Binding PageTitle}"
                        HorizontalOptions="Center"/>
-                <Button Text="Edit Lists"
+                <Button Text="Edit List Items"
                         Command="{Binding GoToEditListItemsPageCommand}" />
             </StackLayout>
 
