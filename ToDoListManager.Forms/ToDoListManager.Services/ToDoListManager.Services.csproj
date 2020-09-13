@@ -14,4 +14,8 @@
     <Folder Include="Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\ToDoListManager.Data\ToDoListManager.Data\ToDoListManager.Data.csproj" />
+  </ItemGroup>
+
 </Project>

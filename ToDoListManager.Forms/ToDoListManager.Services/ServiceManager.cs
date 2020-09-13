@@ -22,12 +22,9 @@ namespace ToDoListManager.Services
         {
             try
             {
-                CachingService = new CachingService(appName);
-
                 LoggingService = new FancyLoggerService();
 
-
-                ToDoListApiService = new ToDoListApiService();
+                ToDoListDataService = new ToDoListDataService(appName);
             }
             catch (Exception exception)
             {
@@ -39,12 +36,9 @@ namespace ToDoListManager.Services
 
         #region Public
 
-        public static CachingService CachingService { get; private set;  }
-
         public static FancyLoggerService LoggingService { get; private set; }
 
-
-        public static ToDoListApiService ToDoListApiService { get; private set; }
+        public static ToDoListDataService ToDoListDataService { get; private set; }
 
         #endregion
 

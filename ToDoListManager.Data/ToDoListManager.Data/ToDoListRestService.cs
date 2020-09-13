@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace ToDoListManager.Data
 {
-    public class ToDoListApi
+    public class ToDoListRestService
     {
         #region Fields
 
@@ -16,7 +16,7 @@ namespace ToDoListManager.Data
 
         #region Constructors
 
-        public ToDoListApi()
+        public ToDoListRestService()
         {
             try
             {
@@ -31,12 +31,6 @@ namespace ToDoListManager.Data
                 throw;
             }
         }
-
-        #endregion
-
-        #region Search
-
-        // TODO
 
         #endregion
 

@@ -75,11 +75,8 @@ namespace ToDoListManager
 
         private static ServiceManager ServiceManager { get; set; }
 
-        internal static ToDoListApiService ApiService =>
-            ServiceManager.ToDoListApiService;
-
-        internal static CachingService CachingService =>
-            ServiceManager.CachingService;
+        internal static ToDoListDataService DataService =>
+            ServiceManager.ToDoListDataService;
 
         internal static FancyLoggerService LoggingService =>
             ServiceManager.LoggingService;
