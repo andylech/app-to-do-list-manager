@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using ToDoListManager.Models;
@@ -6,6 +6,7 @@ using ToDoListManager.Pages;
 using Xamarin.Forms;
 using static ToDoListManager.App;
 using static ToDoListManager.Models.AppSection;
+using static ToDoListManager.Services.Messaging.MessagingService;
 
 namespace ToDoListManager.PageModels
 {
@@ -83,7 +84,7 @@ namespace ToDoListManager.PageModels
                 }
                 catch (Exception exception)
                 {
-                    MessagingService.SendErrorMessage(exception);
+                    SendErrorMessage(exception);
                 }
             });
 
@@ -125,7 +126,7 @@ namespace ToDoListManager.PageModels
             }
             catch (Exception exception)
             {
-                MessagingService.SendErrorMessage(exception);
+                SendErrorMessage(exception);
             }
         }
 

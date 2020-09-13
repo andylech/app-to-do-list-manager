@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using FancyLogger;
@@ -10,6 +10,7 @@ using ToDoListManager.Services.Api;
 using ToDoListManager.Services.Caching;
 using ToDoListManager.Services.Messaging;
 using Xamarin.Forms;
+using static ToDoListManager.Services.Messaging.MessagingService;
 
 namespace ToDoListManager
 {
@@ -41,7 +42,7 @@ namespace ToDoListManager
             }
             catch (Exception exception)
             {
-                MessagingService?.SendErrorMessage(exception);
+                SendErrorMessage(exception);
             }
         }
 
@@ -82,9 +83,6 @@ namespace ToDoListManager
 
         internal static FancyLoggerService LoggingService =>
             ServiceManager.LoggingService;
-
-        internal static MessagingService MessagingService =>
-            ServiceManager.MessagingService;
 
         #endregion
 

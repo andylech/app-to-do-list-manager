@@ -1,9 +1,10 @@
-﻿using System;
+using System;
+using System.Diagnostics;
 using static ToDoListManager.Services.ServiceManager;
 
 namespace ToDoListManager.Services.Messaging
 {
-    public class MessagingService
+    public static class MessagingService
     {
         #region Fields
 
@@ -15,9 +16,18 @@ namespace ToDoListManager.Services.Messaging
 
         #region Public
 
-        public void SendErrorMessage(Exception exception)
+        public static void SendErrorMessage(Exception exception)
         {
-            LoggingService?.WriteException(exception);
+            try
+            {
+                // TODO Send error info to analytics service
+
+                LoggingService?.WriteException(exception);
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Exception = {0}", exception.Message);
+            }
         }
 
         // TODO

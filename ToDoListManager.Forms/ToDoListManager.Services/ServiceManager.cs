@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FancyLogger;
 using ToDoListManager.Services.Api;
 using ToDoListManager.Services.Caching;
@@ -26,7 +26,6 @@ namespace ToDoListManager.Services
 
                 LoggingService = new FancyLoggerService();
 
-                MessagingService = new MessagingService();
 
                 ToDoListApiService = new ToDoListApiService();
             }
@@ -44,7 +43,6 @@ namespace ToDoListManager.Services
 
         public static FancyLoggerService LoggingService { get; private set; }
 
-        public static MessagingService MessagingService { get; private set; }
 
         public static ToDoListApiService ToDoListApiService { get; private set; }
 

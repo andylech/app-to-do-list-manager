@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -10,6 +10,7 @@ using ToDoListManager.PageModels;
 using Xamarin.Forms;
 using static ToDoListManager.App;
 using static ToDoListManager.Models.AppSection;
+using static ToDoListManager.Services.Messaging.MessagingService;
 
 namespace ToDoListManager.Navigation
 {
@@ -258,7 +259,7 @@ namespace ToDoListManager.Navigation
             }
             catch (Exception exception)
             {
-                MessagingService.SendErrorMessage(exception);
+                SendErrorMessage(exception);
             }
 
             return pageFor;

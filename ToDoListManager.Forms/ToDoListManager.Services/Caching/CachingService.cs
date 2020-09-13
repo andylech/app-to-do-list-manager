@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Akavache;
 using static ToDoListManager.Services.ServiceManager;
+using static ToDoListManager.Services.Messaging.MessagingService;
 
 namespace ToDoListManager.Services.Caching
 {
@@ -45,7 +46,7 @@ namespace ToDoListManager.Services.Caching
             {
                 exception.Data.Add("cacheName", cacheName);
 
-                MessagingService?.SendErrorMessage(exception);
+                SendErrorMessage(exception);
 
                 throw;
             }
@@ -59,7 +60,7 @@ namespace ToDoListManager.Services.Caching
             }
             catch (Exception exception)
             {
-                MessagingService?.SendErrorMessage(exception);
+                SendErrorMessage(exception);
 
                 throw;
             }
@@ -102,7 +103,7 @@ namespace ToDoListManager.Services.Caching
                 exception.Data.Add("key", key);
                 exception.Data.Add("location", location.ToString());
 
-                MessagingService?.SendErrorMessage(exception);
+                SendErrorMessage(exception);
 
                 throw;
             }
@@ -147,7 +148,7 @@ namespace ToDoListManager.Services.Caching
                 exception.Data.Add("key", key);
                 exception.Data.Add("location", location.ToString());
 
-                MessagingService?.SendErrorMessage(exception);
+                SendErrorMessage(exception);
 
                 throw;
             }
@@ -181,7 +182,7 @@ namespace ToDoListManager.Services.Caching
                 exception.Data.Add("key", key);
                 exception.Data.Add("location", location.ToString());
 
-                MessagingService?.SendErrorMessage(exception);
+                SendErrorMessage(exception);
 
                 throw;
             }
@@ -211,7 +212,7 @@ namespace ToDoListManager.Services.Caching
             {
                 exception.Data.Add("location", location.ToString());
 
-                MessagingService?.SendErrorMessage(exception);
+                SendErrorMessage(exception);
 
                 throw;
             }

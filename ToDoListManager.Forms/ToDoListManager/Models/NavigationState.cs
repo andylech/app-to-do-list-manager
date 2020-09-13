@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using static ToDoListManager.App;
+using static ToDoListManager.Services.Messaging.MessagingService;
 
 namespace ToDoListManager.Models
 {
@@ -17,7 +18,7 @@ namespace ToDoListManager.Models
             }
             catch (Exception exception)
             {
-                MessagingService.SendErrorMessage(exception);
+                SendErrorMessage(exception);
             }
         }
 
