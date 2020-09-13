@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using static ToDoListManager.Services.ServiceManager;
 
@@ -30,7 +30,19 @@ namespace ToDoListManager.Services.Messaging
             }
         }
 
-        // TODO
+        public static void SendWarningMessage(string warning)
+        {
+            try
+            {
+                // TODO Send warning info to analytics service (if applicable)
+
+                LoggingService?.WriteWarning(warning);
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine("Exception = {0}", exception.Message);
+            }
+        }
 
         #endregion
 
