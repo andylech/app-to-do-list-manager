@@ -48,4 +48,4 @@ https://app.gitkraken.com/glo/board/X1lZaz2bBQARvJyD
 * I could easily have used an IoC container to handle constructor injection, replace the ServiceManager and make other improvements.  But I was trying not to overdue the dependencies of this simple demo project.
 * The messaging service used here is a simple static one for displaying exceptions.  A full-blown app could, of course, use Xamarin.Forms MessagingCenter for things like analytics reporting, displaying alerts when not convenient (PageModels), etc.
 * When consuming a real REST API, I typically use [Refit](https://github.com/reactiveui/refit) to avoid most of the HttpClient boilerplate code.
-* A real multi-device to-do list manager would probably some form of [Reactive Extensions(Rx)](https://github.com/dotnet/reactive) to handle pushing changes to devices instead of polling.
+* A real multi-device to-do list manager would probably use some form of [Reactive Extensions (Rx)](https://github.com/dotnet/reactive) to handle pushing changes to devices instead of polling.
