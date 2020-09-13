@@ -22,7 +22,7 @@ namespace ToDoListManager.PageModels
         {
             NavState = navState;
 
-            LoggingService.WriteHeader(PageName);
+            PageModelCreatedCommand.Execute(null);
         }
 
         #endregion
@@ -151,6 +151,12 @@ namespace ToDoListManager.PageModels
         #endregion
 
         #region State Commands
+
+        private Command PageModelCreatedCommand =>
+            new Command(() => LoggingService.WriteHeader($"{PageName} - PageModel Created"));
+
+        public Command PageOnAppearingCommand =>
+            new Command(() => LoggingService.WriteHeader($"{PageName} - Page OnAppearing"));
 
         #endregion
 

@@ -20,6 +20,8 @@ namespace ToDoListManager.Services.Caching
             CacheName = cacheName;
 
             Startup(cacheName);
+
+            LoggingService?.WriteHeader("Caching Service Started");
         }
 
         #endregion
@@ -299,14 +301,14 @@ namespace ToDoListManager.Services.Caching
         private static void PrintKeysToDebug(IEnumerable<string> keys, string location)
         {
             var keyList = (IList<string>) keys;
-            if (keyList.Count > 0)
-            {
-                Debug.WriteLine($"Cache - {location}:");
 
-                foreach (var key in keys)
-                {
-                    Debug.WriteLine($"\t{key}");
-                }
+            if (keyList.Count <= 0) return;
+
+            Debug.WriteLine($"Cache - {location}:");
+
+            foreach (var key in keys)
+            {
+                Debug.WriteLine($"\t{key}");
             }
         }
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -29,6 +29,8 @@ namespace ToDoListManager.Navigation
 
         public NavigationService(Assembly assembly)
         {
+            LoggingService.WriteHeader("Navigation Service Started");
+
             RegisterPageModels(assembly);
         }
 

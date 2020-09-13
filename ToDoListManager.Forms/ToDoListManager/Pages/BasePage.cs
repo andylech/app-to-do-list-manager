@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using ToDoListManager.Navigation;
 using ToDoListManager.PageModels;
@@ -56,6 +56,13 @@ namespace ToDoListManager.Pages
         #endregion
 
         #region Protected Overrides
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            PageModel.PageOnAppearingCommand.Execute(null);
+        }
 
         #endregion
 
