@@ -107,7 +107,44 @@ namespace ToDoListManager.Services.Caching
 
                 SendErrorMessage(exception);
 
-                throw;
+                return default;
+            }
+        }
+
+        // Akavache: Get an object given a key
+        public static async Task<T> GetObject<T>(string key, Location location)
+        {
+            try
+            {
+                switch (location)
+                {
+                    case Location.LocalMachine:
+                        return await BlobCache.LocalMachine.GetObject<T>(key);
+                        ;
+                    case Location.UserAccount:
+                        return await BlobCache.UserAccount.GetObject<T>(key);
+                    case Location.Secure:
+                        return await BlobCache.Secure.GetObject<T>(key);
+                    case Location.InMemory:
+                        return await BlobCache.InMemory.GetObject<T>(key);
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(location), location, null);
+                }
+            }
+            catch (KeyNotFoundException)
+            {
+                SendWarningMessage($"'{key}' key not found in {location.LocationName()} cache");
+
+                return default;
+            }
+            catch (Exception exception)
+            {
+                exception.Data.Add("key", key);
+                exception.Data.Add("location", location.ToString());
+
+                SendErrorMessage(exception);
+
+                return default;
             }
         }
 
@@ -152,7 +189,7 @@ namespace ToDoListManager.Services.Caching
 
                 SendErrorMessage(exception);
 
-                throw;
+                return default;
             }
         }
 
@@ -186,7 +223,7 @@ namespace ToDoListManager.Services.Caching
 
                 SendErrorMessage(exception);
 
-                throw;
+                return default;
             }
         }
 
@@ -216,7 +253,7 @@ namespace ToDoListManager.Services.Caching
 
                 SendErrorMessage(exception);
 
-                throw;
+                return default;
             }
         }
 
@@ -229,12 +266,21 @@ namespace ToDoListManager.Services.Caching
             T value,
             DateTimeOffset? expiration = null)
         {
-            var deleteResult = await InvalidateObject<T>(key, location);
+            try
+            {
+                await InvalidateObject<T>(key, location);
 
-            if (deleteResult != Unit.Default)
                 return await InsertObject(key, location, value, expiration);
+            }
+            catch (Exception exception)
+            {
+                exception.Data.Add("key", key);
+                exception.Data.Add("location", location.ToString());
 
-            return default;
+                SendErrorMessage(exception);
+
+                return default;
+            }
         }
 
         #endregion
