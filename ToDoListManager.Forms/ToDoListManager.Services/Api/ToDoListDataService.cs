@@ -96,16 +96,10 @@ namespace ToDoListManager.Services.Api
             }
         }
 
-        public async Task<DateTimeOffset?> AddNewList(string name)
+        public async Task<DateTimeOffset?> AddNewList(ToDoList list)
         {
             try
             {
-                // TODO Validate list name in UI
-                if (string.IsNullOrWhiteSpace(name))
-                    throw new System.ArgumentException("Invalid list name '{name}'");
-
-                var list = new ToDoList(name);
-
                 await AddNewListHeader(list);
 
                 return await SaveList(list);

@@ -77,7 +77,9 @@ namespace ToDoListManager.PageModels
                     PageIsWaiting = true;
                     AddNewListCommand.ChangeCanExecute();
 
-                    await DataService.AddNewList(listName);
+                    SelectedList = new ToDoList(listName);
+
+                    await DataService.AddNewList(SelectedList);
 
                     PageIsWaiting = false;
                     AddNewListCommand.ChangeCanExecute();
