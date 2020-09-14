@@ -30,7 +30,7 @@ namespace ToDoListManager.Data.Responses
 
         public string Id { get; }
 
-        public string Name { get; }
+        public string Name { get; set; }
 
         public bool Deleted { get; set; }
 

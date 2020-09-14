@@ -37,7 +37,7 @@ namespace ToDoListManager.PageModels
         #region Data Properties
 
         // Either the open list on EditListItemsPage or the selected list on EditListsPage
-        public ToDoList ListSelected { get; set; }
+        public ToDoList SelectedList { get; set; }
 
         #endregion
 
@@ -156,7 +156,7 @@ namespace ToDoListManager.PageModels
         public Command GoToEditListItemsPageCommand =>
             new Command(async list =>
             {
-                var navState = new NavigationState(ListManagement, ListSelected);
+                var navState = new NavigationState(ListManagement, SelectedList);
 
                 await ExecuteGoToPageCommand(PageType.EditListItems, navState);
             });
@@ -193,7 +193,7 @@ namespace ToDoListManager.PageModels
 
         #region Internal Methods
 
-        internal bool IsExistingList() => ListSelected?.Id != null;
+        internal bool IsExistingList() => SelectedList?.Id != null;
 
         #endregion
 

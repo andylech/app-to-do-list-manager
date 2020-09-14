@@ -1,5 +1,10 @@
-﻿using ToDoListManager.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ToDoListManager.Models;
 using ToDoListManager.Pages;
+using Xamarin.Forms;
+using static ToDoListManager.App;
 
 namespace ToDoListManager.PageModels
 {
@@ -13,6 +18,7 @@ namespace ToDoListManager.PageModels
 
         public EditListsPageModel(NavigationState navState) : base(navState)
         {
+            LoadAllListIdsCommand.Execute(false);
         }
 
         #endregion
@@ -24,6 +30,8 @@ namespace ToDoListManager.PageModels
         #region Properties
 
         #region Data Properties
+
+        private IList<ValueTuple<string, string>> ListHeaders { get; set; }
 
         #endregion
 
@@ -42,6 +50,60 @@ namespace ToDoListManager.PageModels
         #region Commands
 
         #region Data Commands
+
+        #region LoadAllListIdsCommand
+
+        public Command<bool> LoadAllListIdsCommand =>
+            new Command<bool>(async forceLatest =>
+                {
+                    PageIsWaiting = true;
+                    LoadAllListIdsCommand.ChangeCanExecute();
+
+                    ListHeaders = await DataService.GetAllListHeaders(forceLatest);
+
+                    PageIsWaiting = false;
+                    LoadAllListIdsCommand.ChangeCanExecute();
+                },
+                forceLatest => !PageIsWaiting);
+
+        #endregion
+
+        #region DeleteListCommand
+
+        public Command DeleteListCommand =>
+            new Command(async () =>
+                {
+                    PageIsWaiting = true;
+                    DeleteListCommand.ChangeCanExecute();
+
+                    await DataService.DeleteListById(SelectedList.Id);
+
+                    PageIsWaiting = false;
+                    DeleteListCommand.ChangeCanExecute();
+                },
+                () => !PageIsWaiting);
+
+        #endregion
+
+
+        #region RenameListCommand
+
+        public Command<string> RenameListCommand =>
+            new Command<string>(async listName =>
+                {
+                    PageIsWaiting = true;
+                    RenameListCommand.ChangeCanExecute();
+
+                    SelectedList.Name = listName;
+
+                    await DataService.RenameListById(SelectedList.Id, listName);
+
+                    PageIsWaiting = false;
+                    RenameListCommand.ChangeCanExecute();
+                },
+                listName => !PageIsWaiting);
+
+        #endregion
 
         #endregion
 

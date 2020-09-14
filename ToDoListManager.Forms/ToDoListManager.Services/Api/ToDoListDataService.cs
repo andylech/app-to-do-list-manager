@@ -69,6 +69,7 @@ namespace ToDoListManager.Services.Api
             }
         }
 
+        // TODO Consolidate into GetOneList with flag to avoid multiple API calls in real version
         public async Task<IList<ToDoItem>> GetListItems(IList<string> itemIds)
         {
             try
@@ -117,15 +118,18 @@ namespace ToDoListManager.Services.Api
             }
         }
 
-        public async Task<DateTimeOffset?> SaveList(ToDoList list)
-        {
-            return await UpdateList(list, "SAVED");
-        }
-
-        public async Task<DateTimeOffset?> DeleteList(ToDoList list)
+        public async Task<DateTimeOffset?> DeleteListById(string listId)
         {
             try
             {
+                if (!Guid.TryParse(listId, out Guid _))
+                    throw new System.ArgumentException($"Invalid list id '{listId}'");
+
+                var list = await GetOneList(listId, forceLatest: true);
+
+                if (list == null)
+                    return null;
+
                 // No-API version does "soft" delete which updates list with Deleted flag on
                 list.Deleted = true;
 
@@ -139,6 +143,37 @@ namespace ToDoListManager.Services.Api
 
                 return null;
             }
+        }
+
+        public async Task<DateTimeOffset?> RenameListById(string listId, string name)
+        {
+            try
+            {
+                if (!Guid.TryParse(listId, out Guid _))
+                    throw new System.ArgumentException($"Invalid list id '{listId}'");
+
+                var list = await GetOneList(listId, forceLatest: true);
+
+                if (list == null)
+                    return null;
+
+                list.Name = name;
+
+                await RenameListHeader(list);
+
+                return await UpdateList(list, "RENAMED");
+            }
+            catch (Exception exception)
+            {
+                SendErrorMessage(exception);
+
+                return null;
+            }
+        }
+
+        public async Task<DateTimeOffset?> SaveList(ToDoList list)
+        {
+            return await UpdateList(list, "SAVED");
         }
 
         private async Task<DateTimeOffset?> UpdateList(ToDoList list, string operation = null)
@@ -205,24 +240,6 @@ namespace ToDoListManager.Services.Api
 
         #region CRUD - Individual Items
 
-
-        public async Task<ToDoItem> GetOneItem(string itemId, bool forceLatest = false)
-        {
-            try
-            {
-                // No-API version gets item from cache versus GetOrFetchObject<T>
-                var item = await CachingService.GetObject<ToDoItem>(itemId, CachingLocation);
-
-                return item;
-            }
-            catch (Exception exception)
-            {
-                SendErrorMessage(exception);
-
-                return null;
-            }
-        }
-
         public async Task<DateTimeOffset?> AddNewItem(string text, string listId)
         {
             try
@@ -250,10 +267,10 @@ namespace ToDoListManager.Services.Api
             return await UpdateItem(item, "SAVED");
         }
 
-        public async Task<DateTimeOffset?> CompleteItem(ToDoItem item)
+        public async Task<DateTimeOffset?> CompleteItem(ToDoItem item, bool completed)
         {
-            // No-API version does "soft" complete which updates item with Complete flag on
-            item.Completed = true;
+            // No-API version does "soft" complete which updates item with Complete status from UI
+            item.Completed = completed;
 
             return await UpdateItem(item, "COMPLETED");
         }
@@ -294,12 +311,28 @@ namespace ToDoListManager.Services.Api
             }
         }
 
+        private async Task<ToDoItem> GetOneItem(string itemId, bool forceLatest = false)
+        {
+            try
+            {
+                // No-API version gets item from cache versus GetOrFetchObject<T>
+                var item = await CachingService.GetObject<ToDoItem>(itemId, CachingLocation);
+
+                return item;
+            }
+            catch (Exception exception)
+            {
+                SendErrorMessage(exception);
+
+                return null;
+            }
+        }
+
         #endregion
 
         #region CRUD - Multiple Lists
 
         // TODO Split list header out into separate object so can timestamp it
-
 
         public async Task<IList<ValueTuple<string, string>>> GetAllListHeaders(bool forceLatest = false)
         {
@@ -366,6 +399,33 @@ namespace ToDoListManager.Services.Api
             }
         }
 
+        private async Task<DateTimeOffset?> RenameListHeader(ToDoList list)
+        {
+            try
+            {
+                var listHeaders =
+                    (await GetAllListHeaders(true) ?? new List<ValueTuple<string, string>>())
+                    .ToList();
+                var index =
+                    listHeaders.FindIndex(header => header.Item1 == list.Id);
+
+                if (index < 0)
+                    return null;
+
+                var listHeader = listHeaders[index];
+                listHeader.Item2 = list.Name;
+                listHeaders[index] = listHeader;
+
+                return await UpdateListHeaders(listHeaders);
+            }
+            catch (Exception exception)
+            {
+                SendErrorMessage(exception);
+
+                return null;
+            }
+        }
+
         private async Task<DateTimeOffset?> UpdateListHeaders(
             IList<ValueTuple<string, string>> listHeaders)
         {
@@ -390,7 +450,7 @@ namespace ToDoListManager.Services.Api
         #region Debug
 
         [Conditional("DEBUG")]
-        public void PrintAllListHeaders(IList<ValueTuple<string, string>> listHeaders)
+        private void PrintAllListHeaders(IList<ValueTuple<string, string>> listHeaders)
         {
             if (listHeaders == null)
                 return;
@@ -420,7 +480,9 @@ namespace ToDoListManager.Services.Api
             var listHeader = string.IsNullOrEmpty(operation) ? "" : $"{operation}: ";
             listHeader += $"List '{list.Name}' = {list.Id}";
 
-            LoggingService.WriteValue(listHeader, $"{list.ItemIds.Count()} items");
+            LoggingService.WriteLine($"{listHeader} => {list.ItemIds.Count()} items",
+                newlineBefore: true,
+                indentLevel: 1);
         }
 
         [Conditional("DEBUG")]
