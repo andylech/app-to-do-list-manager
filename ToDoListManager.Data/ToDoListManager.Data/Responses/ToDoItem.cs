@@ -1,12 +1,32 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ToDoListManager.Data.Responses
 {
     public class ToDoItem
     {
-        public string Id { get; set; }
+        #region Constructors
 
-        public string Text { get; set; }
+        // For Json.Net Serialization/Deserialization
+        [SuppressMessage("ReSharper", "UnusedMember.Global")]
+        public ToDoItem()
+        {
+
+        }
+
+        public ToDoItem(string text, string listId)
+        {
+            Text = text;
+            Id = Guid.NewGuid().ToString();
+            ListId = listId;
+        }
+        #endregion
+
+        #region Properties
+
+        public string Id { get; }
+
+        public string Text { get; }
 
         public bool Completed { get; set; }
 
@@ -14,6 +34,8 @@ namespace ToDoListManager.Data.Responses
 
         public string ListId { get; set; }
 
-        public DateTimeOffset SavedTimestamp { get; set; }
+        public DateTimeOffset ChangedTimestamp { get; set; }
+
+        #endregion
     }
 }

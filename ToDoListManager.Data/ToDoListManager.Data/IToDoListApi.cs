@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ToDoListManager.Data.Responses;
 
 namespace ToDoListManager.Data
@@ -9,20 +10,20 @@ namespace ToDoListManager.Data
     {
         // CRUD operations for individual lists
 
-        ToDoList GetOneList(string listId);
+        Task<ToDoList> GetOneList(string listId, bool forceLatest = false);
 
-        DateTimeOffset SaveList(ToDoList list);
+        Task<DateTimeOffset?> SaveList(ToDoList list);
 
-        DateTimeOffset DeleteList(ToDoList list);
+        Task<DateTimeOffset?> DeleteList(ToDoList list);
 
         // CRUD operations for individual items in a list
 
-        DateTimeOffset SaveItem(ToDoItem item, string listId);
+        Task<DateTimeOffset?> SaveItem(ToDoItem item, string listId);
 
-        DateTimeOffset DeleteItem(ToDoItem item, string listId);
+        Task<DateTimeOffset?> DeleteItem(ToDoItem item, string listId);
 
         // CRUD operations for all lists
 
-        IEnumerable<string> GetAllListIds();
+        Task<IEnumerable<string>> GetAllListIds(bool forceLatest = false);
     }
 }

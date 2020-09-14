@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using ToDoListManager.Navigation;
 using ToDoListManager.PageModels;
+using ToDoListManager.Resources;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -75,6 +77,20 @@ namespace ToDoListManager.Pages
         #endregion
 
         #region Protected
+
+        protected async Task PromptForNameOfNewList()
+        {
+            string listName;
+
+            // TODO Replace with reusable custom control with validation to avoid looping
+            do
+            {
+                listName = await DisplayPromptAsync(Strings.NewListNamePromptTitle,
+                    Strings.NewListNamePromptMessage);
+            } while (string.IsNullOrWhiteSpace(listName));
+
+            PageModel.AddNewListCommand.Execute(listName);
+        }
 
         #endregion
 

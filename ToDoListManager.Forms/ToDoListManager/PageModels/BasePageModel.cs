@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using ToDoListManager.Data.Responses;
 using ToDoListManager.Models;
 using ToDoListManager.Pages;
 using Xamarin.Forms;
@@ -35,6 +36,9 @@ namespace ToDoListManager.PageModels
 
         #region Data Properties
 
+        // Either the open list on EditListItemsPage or the selected list on EditListsPage
+        public ToDoList ListSelected { get; set; }
+
         #endregion
 
         #region Navigation Properties
@@ -63,6 +67,24 @@ namespace ToDoListManager.PageModels
 
         #region Data Commands
 
+        #region AddNewListCommand
+
+        public Command<string> AddNewListCommand =>
+            new Command<string>(async listName =>
+                {
+                    PageIsWaiting = true;
+                    AddNewListCommand.ChangeCanExecute();
+
+                    await DataService.AddNewList(listName);
+
+                    PageIsWaiting = false;
+                    AddNewListCommand.ChangeCanExecute();
+                },
+                listName => !PageIsWaiting);
+
+        #endregion
+
+
         #endregion
 
         #region Navigation Commands
@@ -71,22 +93,22 @@ namespace ToDoListManager.PageModels
 
         #region GoToPageCommand
 
-        // Generic navigation command
-        public Command<PageType> GoToPageCommand =>
-            new Command<PageType>(async nextPage =>
-            {
-                try
-                {
-                    // TODO Update after primary navigation added
-                    var navState = new NavigationState(ListManagement);
+        //// Generic navigation command
+        //public Command<PageType> GoToPageCommand =>
+        //    new Command<PageType>(async nextPage =>
+        //    {
+        //        try
+        //        {
+        //            // TODO Update after primary navigation added
+        //            var navState = new NavigationState(ListManagement);
 
-                    await ExecuteGoToPageCommand(nextPage, navState);
-                }
-                catch (Exception exception)
-                {
-                    SendErrorMessage(exception);
-                }
-            });
+        //            await ExecuteGoToPageCommand(nextPage, navState);
+        //        }
+        //        catch (Exception exception)
+        //        {
+        //            SendErrorMessage(exception);
+        //        }
+        //    });
 
         // This is the brains of nav logic.  Shared by generic and page-specific nav commands.
         private async Task ExecuteGoToPageCommand(PageType nextPage,
@@ -108,9 +130,6 @@ namespace ToDoListManager.PageModels
                 switch (nextPage)
                 {
                     case PageType.EditListItems:
-                        //// Make root page of app
-                        //await NavService.ReplaceRootAsync(typeof(EditListItemsPageModel),
-                        //    navState);
                         // TEMP While only 2 pages and start on EditListItems, can simplify
                         await NavService.PopAsync();
                         break;
@@ -134,17 +153,25 @@ namespace ToDoListManager.PageModels
 
         #region GoToEditListItemsPageCommand
 
-        public Command<NavigationState> GoToEditListItemsPageCommand =>
-            new Command<NavigationState>(async navState =>
-                await ExecuteGoToPageCommand(PageType.EditListItems, navState));
+        public Command GoToEditListItemsPageCommand =>
+            new Command(async list =>
+            {
+                var navState = new NavigationState(ListManagement, ListSelected);
+
+                await ExecuteGoToPageCommand(PageType.EditListItems, navState);
+            });
 
         #endregion
 
         #region GoToEditListsPageCommand
 
-        public Command<NavigationState> GoToEditListsPageCommand =>
-            new Command<NavigationState>(async navState =>
-                await ExecuteGoToPageCommand(PageType.EditLists, navState));
+        public Command GoToEditListsPageCommand =>
+            new Command(async () =>
+            {
+                var navState = new NavigationState(ListManagement);
+
+                await ExecuteGoToPageCommand(PageType.EditLists, navState);
+            });
 
         #endregion
 
@@ -157,6 +184,24 @@ namespace ToDoListManager.PageModels
 
         public Command PageOnAppearingCommand =>
             new Command(() => LoggingService.WriteHeader($"{PageName} - Page OnAppearing"));
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        #region Internal Methods
+
+        internal bool IsExistingList() => ListSelected?.Id != null;
+
+        #endregion
+
+        #region Protected Methods
+
+        #endregion
+
+        #region Private Methods
 
         #endregion
 
