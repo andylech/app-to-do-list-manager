@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using PropertyChanged;
 using ToDoListManager.Data.Responses;
 using ToDoListManager.Models;
 using ToDoListManager.Pages;
@@ -11,6 +12,7 @@ using static ToDoListManager.Services.Messaging.MessagingService;
 
 namespace ToDoListManager.PageModels
 {
+    [AddINotifyPropertyChangedInterface]
     public abstract class BasePageModel
     {
         #region Fields
