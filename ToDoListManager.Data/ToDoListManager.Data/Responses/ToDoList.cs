@@ -4,7 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ToDoListManager.Data.Responses
 {
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class ToDoList
     {
@@ -28,13 +29,13 @@ namespace ToDoListManager.Data.Responses
 
         #region Properties
 
-        public string Id { get; }
+        public string Id { get; set; }
 
         public string Name { get; set; }
 
         public bool Deleted { get; set; }
 
-        public IList<string> ItemIds { get; }
+        public IList<string> ItemIds { get; set; }
 
         public DateTimeOffset ChangedTimestamp { get; set; }
 
