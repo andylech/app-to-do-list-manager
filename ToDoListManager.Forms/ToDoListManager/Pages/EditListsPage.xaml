@@ -6,40 +6,59 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pageModels="clr-namespace:ToDoListManager.PageModels"
     xmlns:pages="clr-namespace:ToDoListManager.Pages"
-    xmlns:styles="clr-namespace:ToDoListManager.Styles"
     x:Class="ToDoListManager.Pages.EditListsPage"
     x:DataType="pageModels:EditListsPageModel"
     x:TypeArguments="pageModels:EditListsPageModel">
-    <ContentView Padding="{x:Static styles:Dimensions.PageColumnPadding}">
+    <ContentView>
         <Grid VerticalOptions="FillAndExpand"
               RowSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="{x:Static styles:Dimensions.PageHeaderRowHeight}" />
+                <RowDefinition Height="{StaticResource PageHeaderRowHeight}" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <!--  Row 0: Header  -->
             <!-- TODO <controls:PageHeader Grid.Row="0" />-->
 
-            <Grid Grid.Row="0">
+            <Grid Grid.Row="0"
+                BackgroundColor="{StaticResource IntelliShiftSteelBlue}"
+                Padding="{StaticResource PageColumnPadding}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition
-                        Width="{x:Static styles:Dimensions.PageHeaderSideColumnWidth}" />
+                        Width="{StaticResource PageHeaderSideColumnWidth}" />
                     <ColumnDefinition
-                        Width="{x:Static styles:Dimensions.PageHeaderCenterColumnWidth}" />
+                        Width="{StaticResource PageHeaderCenterColumnWidth}" />
                     <ColumnDefinition
-                        Width="{x:Static styles:Dimensions.PageHeaderSideColumnWidth}" />
+                        Width="{StaticResource PageHeaderSideColumnWidth}" />
                 </Grid.ColumnDefinitions>
-                <!-- TEMP Replace with icon font character -->
-                <Button Grid.Column="0"
-                        Text="Back"
-                        HorizontalOptions="Center" VerticalOptions="Center"
-                        Command="{Binding GoToEditListItemsPageCommand}" />
-                <Label Grid.Column="1"
-                       Text="{Binding PageTitle}"
-                       HorizontalOptions="Center" VerticalOptions="Center"
-                       HorizontalTextAlignment="Center" />
 
+                <!-- TEMP Replace with icon font character for backward arrow -->
+                <!-- &#60; = less-than sign -->
+                <Label Grid.Column="0"
+                    Text="&#60;"
+                    Style="{StaticResource FakeButtonLabelStyle}"
+                    HorizontalOptions="Start">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"
+                            Command="{Binding GoToEditListItemsPageCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Label Grid.Column="1"
+                    Style="{StaticResource TitleLabelStyle}"
+                    Text="{Binding PageTitle}" />
+
+                <!-- TEMP Replace with icon font character for thick plus sign -->
+                <!-- &#43; = plus sign -->
+                <Label Grid.Column="2"
+                    Text="&#43;"
+                    Style="{StaticResource FakeButtonLabelStyle}"
+                    HorizontalOptions="End">
+                    <!--<Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"
+                            Command="{Binding GoToEditListsPageCommand}" />
+                    </Label.GestureRecognizers>-->
+                </Label>
             </Grid>
 
             <!--  Row 1: Content  -->

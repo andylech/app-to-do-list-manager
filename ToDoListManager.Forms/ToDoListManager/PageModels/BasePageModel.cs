@@ -48,7 +48,7 @@ namespace ToDoListManager.PageModels
                 ? SelectedList.Name
                 : !string.IsNullOrWhiteSpace(NavState?.SelectedListName)
                     ? NavState.SelectedListName
-                    : "New list";
+                    : "";
 
         #endregion
 

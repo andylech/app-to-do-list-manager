@@ -6,7 +6,7 @@
 
         internal const string EditListItemsPageTitle = "Edit list";
 
-        internal const string EditListsPageTitle = "Edit lists";
+        internal const string EditListsPageTitle = "Lists";
 
         // User-visible prompts
 
