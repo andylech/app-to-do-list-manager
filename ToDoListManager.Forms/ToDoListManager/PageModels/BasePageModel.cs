@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using PropertyChanged;
@@ -41,6 +41,15 @@ namespace ToDoListManager.PageModels
         // Either the open list on EditListItemsPage or the selected list on EditListsPage
         public ToDoList SelectedList { get; set; }
 
+        public string SelectedListId { get; set; }
+
+        public string SelectedListName =>
+            !string.IsNullOrWhiteSpace(SelectedList?.Name)
+                ? SelectedList.Name
+                : !string.IsNullOrWhiteSpace(NavState?.SelectedListName)
+                    ? NavState.SelectedListName
+                    : "New list";
+
         #endregion
 
         #region Navigation Properties
@@ -78,8 +87,10 @@ namespace ToDoListManager.PageModels
                     AddNewListCommand.ChangeCanExecute();
 
                     SelectedList = new ToDoList(listName);
-
                     await DataService.AddNewList(SelectedList);
+
+                    SelectedListId = SelectedList.Id;
+                    await DataService.SaveSelectedListId(SelectedListId);
 
                     PageIsWaiting = false;
                     AddNewListCommand.ChangeCanExecute();
@@ -160,7 +171,8 @@ namespace ToDoListManager.PageModels
         public Command GoToEditListItemsPageCommand =>
             new Command(async list =>
             {
-                var navState = new NavigationState(ListManagement, SelectedList);
+                // TODO Send list header
+                var navState = new NavigationState(ListManagement);
 
                 await ExecuteGoToPageCommand(PageType.EditListItems, navState);
             });
@@ -197,7 +209,7 @@ namespace ToDoListManager.PageModels
 
         #region Internal Methods
 
-        internal bool IsExistingList() => SelectedList?.Id != null;
+        internal bool IsExistingList() => !string.IsNullOrWhiteSpace(SelectedListId);
 
         #endregion
 

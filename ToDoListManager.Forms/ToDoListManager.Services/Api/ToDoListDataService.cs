@@ -48,6 +48,48 @@ namespace ToDoListManager.Services.Api
 
         #endregion
 
+        #region CRUD - Selected List Id
+
+        public async Task<string> GetSelectedListId()
+        {
+            try
+            {
+                var selectedListId =
+                    await CachingService.GetObject<string>(CacheKeys.SelectListId,
+                        CachingLocation);
+
+                // TODO Print
+
+                return selectedListId;
+            }
+            catch (Exception exception)
+            {
+                SendErrorMessage(exception);
+
+                return null;
+            }
+        }
+
+        public async Task<DateTimeOffset?> SaveSelectedListId(string selectedListId)
+        {
+            try
+            {
+                // This value is device-specific so it doesn't need to sync to the API
+                await CachingService.UpdateObject(CacheKeys.SelectListId,
+                    CachingLocation, selectedListId);
+
+                return DateTimeOffset.Now;
+            }
+            catch (Exception exception)
+            {
+                SendErrorMessage(exception);
+
+                return null;
+            }
+        }
+
+        #endregion
+
         #region CRUD - Individual Lists
 
         public async Task<ToDoList> GetOneList(string listId, bool forceLatest = false)

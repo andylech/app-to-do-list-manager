@@ -9,12 +9,18 @@ namespace ToDoListManager.Models
     {
         #region Constructors
 
-        public NavigationState(AppSection appSection, ToDoList listSelected = null)
+        public NavigationState(AppSection appSection,
+            ValueTuple<string, string>? listHeader = null)
         {
             try
             {
-                AppSectionSelected = appSection;
-                ListSelected = listSelected;
+                SelectedAppSection = appSection;
+
+                if (listHeader == null)
+                    return;
+
+                SelectedListId = listHeader.Value.Item1;
+                SelectedListName = listHeader.Value.Item2;
             }
             catch (Exception exception)
             {
@@ -27,10 +33,13 @@ namespace ToDoListManager.Models
         #region Public
 
         // Primary navigation (nav bar)
-        public AppSection AppSectionSelected { get; }
+        public AppSection SelectedAppSection { get; }
 
         // Identifier for currently selected list (if any)
-        public ToDoList ListSelected{ get; }
+        public string SelectedListId { get; }
+
+        // User-visible name for currently selected list (if any)
+        public string SelectedListName { get; }
 
         #endregion
     }

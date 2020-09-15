@@ -38,7 +38,7 @@ namespace ToDoListManager.Pages
         {
             base.OnAppearing();
 
-            await PromptForNameOfListIfMissing();
+            await LoadSelectedListOrPromptForNameOfNewList();
         }
 
         #endregion
@@ -53,8 +53,10 @@ namespace ToDoListManager.Pages
 
         #region Private
 
-        private async Task PromptForNameOfListIfMissing()
+        private async Task LoadSelectedListOrPromptForNameOfNewList()
         {
+            await PageModel.LoadSelectedList();
+
             if (PageModel.IsExistingList())
                 return;
 

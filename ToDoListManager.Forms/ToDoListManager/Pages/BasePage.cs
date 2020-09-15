@@ -83,6 +83,7 @@ namespace ToDoListManager.Pages
             string listName;
 
             // TODO Replace with reusable custom control with validation to avoid looping
+            // TODO Add check for duplicate list names
             do
             {
                 listName = await DisplayPromptAsync(Strings.NewListNamePromptTitle,

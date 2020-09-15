@@ -17,7 +17,7 @@ namespace ToDoListManager.Pages
                 switch (pageType)
                 {
                     case PageType.EditListItems:
-                        pageTitle = navState.ListSelected?.Name
+                        pageTitle = navState.SelectedListName
                             // NOTE This should only appear during development
                             ?? Strings.EditListItemsPageTitle;
 

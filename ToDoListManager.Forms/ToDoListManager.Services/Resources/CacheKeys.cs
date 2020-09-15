@@ -4,6 +4,6 @@
     {
         internal const string AllListHeaders = "AllListHeaders";
 
-        internal const string SelectListID = "SelectListId";
+        internal const string SelectListId = "SelectListId";
     }
 }

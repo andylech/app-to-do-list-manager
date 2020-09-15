@@ -18,7 +18,6 @@ namespace ToDoListManager.PageModels
 
         public EditListItemsPageModel(NavigationState navState) : base(navState)
         {
-            LoadAllListItemsCommand.Execute(false);
         }
 
         #endregion
@@ -55,31 +54,33 @@ namespace ToDoListManager.PageModels
 
         #region LoadAllListItemsCommand
 
-        public Command<bool> LoadAllListItemsCommand =>
-            new Command<bool>(async forceLatest =>
-                {
-                    var selectedListId = NavState.ListSelected?.Id;
+        //public Command<bool> LoadAllListItemsCommand =>
+        //    new Command<bool>(async forceLatest =>
+        //        {
+        //            //var selectedListId = NavState.ListSelected?.Id;
 
-                    if (selectedListId == null)
-                        return;
+        //            //if (selectedListId == null)
+        //            //    return;
 
-                    PageIsWaiting = true;
-                    LoadAllListItemsCommand.ChangeCanExecute();
+        //            PageIsWaiting = true;
+        //            LoadAllListItemsCommand.ChangeCanExecute();
 
-                    SelectedList =
-                        await DataService.GetOneList(selectedListId, forceLatest);
+        //            SelectedList =
+        //                await DataService.GetOneList(selectedListId, forceLatest);
 
-                    var selectedListItemIds = NavState.ListSelected?.ItemIds;
+        //            var selectedListItemIds = NavState.ListSelected?.ItemIds;
 
-                    // TODO Consolidate into GetOneList to avoid multiple API calls in real version
-                    if (selectedListItemIds != null)
-                        SelectedListItems =
-                           await DataService.GetListItems(selectedListItemIds);
+        //            // TODO Consolidate into GetOneList to avoid multiple API calls in real version
+        //            if (selectedListItemIds != null)
+        //                SelectedListItems =
+        //                   await DataService.GetListItems(selectedListItemIds);
 
-                    PageIsWaiting = false;
-                    LoadAllListItemsCommand.ChangeCanExecute();
-                },
-                forceLatest => !PageIsWaiting);
+        //            PageIsWaiting = false;
+        //            LoadAllListItemsCommand.ChangeCanExecute();
+        //        },
+        //        forceLatest => !PageIsWaiting);
+
+        #endregion
 
         #region AddNewItemCommand
 
@@ -154,8 +155,6 @@ namespace ToDoListManager.PageModels
 
         #endregion
 
-        #endregion
-
         #region Navigation Commands
 
         #endregion
@@ -167,6 +166,47 @@ namespace ToDoListManager.PageModels
         #endregion
 
         #region Internal Methods
+
+        // TODO Rewrite after loading list items along with list
+
+        internal async Task LoadSelectedList()
+        {
+            if (PageIsWaiting || SelectedList != null)
+                return;
+
+            // Mimic Command gating to use in sequence with UI prompt if no list available
+            PageIsWaiting = true;
+
+            var selectedListId = !string.IsNullOrWhiteSpace(NavState?.SelectedListId)
+                ? NavState.SelectedListId
+                : await DataService.GetSelectedListId();
+
+            if (string.IsNullOrWhiteSpace(selectedListId))
+            {
+                PageIsWaiting = false;
+
+                return;
+            }
+
+            SelectedList = await DataService.GetOneList(selectedListId, true);
+
+            // Something happened to the list elsewhere
+            if (SelectedList == null)
+            {
+                SelectedListId = null;
+
+                PageIsWaiting = false;
+
+                return;
+            }
+
+            SelectedListId = selectedListId;
+            await DataService.SaveSelectedListId(SelectedListId);
+
+            SelectedListItems = await DataService.GetListItems(SelectedList.ItemIds);
+
+            PageIsWaiting = false;
+        }
 
         #endregion
 
