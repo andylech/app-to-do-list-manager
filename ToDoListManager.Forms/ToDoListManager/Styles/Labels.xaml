@@ -3,29 +3,62 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <Style x:Key="BaseLabelStyle" TargetType="Label">
-        <Setter Property="HorizontalTextAlignment" Value="Center" />
         <Setter Property="VerticalTextAlignment" Value="Center" />
         <Setter Property="VerticalOptions" Value="Center" />
-
-        <Setter Property="TextColor" Value="White" />
     </Style>
 
     <Style x:Key="FakeButtonLabelStyle" TargetType="Label"
         BasedOn="{StaticResource BaseLabelStyle}">
 
-        <Setter Property="Padding" Value="10" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
 
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="FontSize" Value="Medium" />
+
+        <Setter Property="TextColor" Value="{DynamicResource WhiteText}" />
     </Style>
+
+    <Style x:Key="LeftFakeButtonLabelStyle" TargetType="Label"
+        BasedOn="{StaticResource FakeButtonLabelStyle}">
+
+        <Setter Property="HorizontalOptions" Value="Start" />
+
+        <Setter Property="Padding" Value="25,10,10,10" />
+    </Style>
+
+    <Style x:Key="RightFakeButtonLabelStyle" TargetType="Label"
+        BasedOn="{StaticResource FakeButtonLabelStyle}">
+
+        <Setter Property="HorizontalOptions" Value="End" />
+
+        <Setter Property="Padding" Value="10,10,25,10" />
+    </Style>
+
 
     <Style x:Key="TitleLabelStyle" TargetType="Label"
         BasedOn="{StaticResource BaseLabelStyle}">
 
-        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="HorizontalOptions" Value="Start" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+
         <Setter Property="Padding" Value="0,10" />
+
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontSize" Value="Medium" />
+
+        <Setter Property="TextColor" Value="{DynamicResource WhiteText}" />
+    </Style>
+
+    <Style x:Key="MemberLabelStyle" TargetType="Label"
+        BasedOn="{StaticResource BaseLabelStyle}">
+
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+
+        <Setter Property="Padding" Value="20" />
 
         <Setter Property="FontAttributes" Value="None" />
         <Setter Property="FontSize" Value="Small" />
+
+        <Setter Property="TextColor" Value="{DynamicResource BlackText}" />
     </Style>
 </ResourceDictionary>

@@ -485,6 +485,88 @@ namespace ToDoListManager.Services.Api
 
         #region Debug
 
+        // DEV only - Use with caution!
+        [Conditional("DEBUG")]
+        public async void PopulateTestLists()
+        {
+            try
+            {
+                await AddNewList(new ToDoList("Test list 1"));
+                await AddNewList(new ToDoList("Test list 2"));
+                await AddNewList(new ToDoList("Test list 3"));
+            }
+            catch (Exception exception)
+            {
+                SendErrorMessage(exception);
+            }
+        }
+
+        // DEV only - Use with caution!
+        [Conditional("DEBUG")]
+        public async void PopulateTestListItems()
+        {
+            try
+            {
+                var selectedListId = await GetSelectedListId();
+
+                await AddNewItem("Test item 1", selectedListId);
+                await AddNewItem("Test item 2", selectedListId);
+                await AddNewItem("Test item 3", selectedListId);
+            }
+            catch (Exception exception)
+            {
+                SendErrorMessage(exception);
+            }
+        }
+
+        // DEV only - Use with caution!
+        [Conditional("DEBUG")]
+        public async void ClearAllLists()
+        {
+            try
+            {
+                var listHeaders = await GetAllListHeaders();
+
+                if (listHeaders == null)
+                    return;
+
+                foreach (var listHeader in listHeaders)
+                {
+                    await CachingService.InvalidateObject<ToDoList>(listHeader.Item1,
+                        CachingLocation);
+                }
+
+                await CachingService.InvalidateObject<IList<ValueTuple<string, string>>>(
+                    CacheKeys.AllListHeaders, CachingLocation);
+
+                CachingService.PrintKeys(CachingLocation);
+            }
+            catch (Exception exception)
+            {
+                SendErrorMessage(exception);
+            }
+        }
+
+        // DEV only - Use with caution!
+        [Conditional("DEBUG")]
+        public async void ClearListItems(IList<string> itemIds)
+        {
+            try
+            {
+                foreach (var itemId in itemIds)
+                {
+                    await CachingService.InvalidateObject<ToDoItem>(itemId,
+                        CachingLocation);
+                }
+
+                CachingService.PrintKeys(CachingLocation);
+            }
+            catch (Exception exception)
+            {
+                SendErrorMessage(exception);
+            }
+        }
+
         [Conditional("DEBUG")]
         private void PrintAllListHeaders(IList<ValueTuple<string, string>> listHeaders)
         {

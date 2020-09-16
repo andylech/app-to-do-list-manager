@@ -49,3 +49,20 @@ https://app.gitkraken.com/glo/board/X1lZaz2bBQARvJyD
 * The messaging service used here is a simple static one for displaying exceptions.  A full-blown app could, of course, use Xamarin.Forms MessagingCenter for things like analytics reporting, displaying alerts when not convenient (PageModels), etc.
 * When consuming a real REST API, I typically use [Refit](https://github.com/reactiveui/refit) to avoid most of the HttpClient boilerplate code.
 * A real multi-device to-do list manager would probably use some form of [Reactive Extensions (Rx)](https://github.com/dotnet/reactive) to handle pushing changes to devices instead of polling.
+
+---
+
+### Conclusion
+
+9/15/2020: This is still very much a work-in-progress at the moment with the data architecture operational to fake a real API using Akavache to do client-side caching of a web service without actually being able to use a real web service or commit to the schema of its endpoints.  The app architecture, navigation, data services, ViewModels (PageModels), a basic error-reporting schema, etc. are all the there.
+
+What I haven't finished yet is the UI presentation and functionlity.  The list items display, but the interaction I was working on tonight isn't finished.  The page to edit lists is there, but the lists don't load into the view yet because of any issue with the data type I used to capture the top-level list info.  Once I change the list-header data structure, I can apply similar changes to the list-management view as I was working on for the list-item-management view.
+
+
+The requirement of the assignment was not actually to create the data architecture and I have a feeling I could have created an app using only in-memory data.  But that wouldn't have felt like a real app to me as it wouldn't retain data across instances.  The data architecture decision are one of the most important in an app (maybe not the first one, but usually in the top five) and I generally work in a bottom-up, data-first approach to building my apps that it would have felt very odd not to work up with even a temporary foundation.
+
+Anyway,I guess all my experience in mobile development actually got in my way this time and led to this not being my best work.  Which is disappointing, but that's just the way it goes sometimes.
+
+I will wrap up the remaining app in its current form in the next day or so. I feel like redoing this project with a real API of some sort which would've allowed better decisions upfront.  But the reality is that the world doesn't need another to-do list manager, so I should spend my time on other projects in the future.
+
+

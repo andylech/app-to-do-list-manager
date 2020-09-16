@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using ToDoListManager.Data.Responses;
 using ToDoListManager.PageModels;
 using ToDoListManager.Resources;
 using Xamarin.Forms;
@@ -49,6 +51,11 @@ namespace ToDoListManager.Pages
 
         #region Events
 
+        //private void CheckBox_OnCheckedChanged(object sender, CheckedChangedEventArgs e)
+        //{
+        //    //throw new NotImplementedException();
+        //}
+
         #endregion
 
         #region Private
@@ -64,5 +71,19 @@ namespace ToDoListManager.Pages
         }
 
         #endregion
+
+        private void SelectableItemsView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                ToDoItem selectedToDoItem = e.CurrentSelection.FirstOrDefault() as ToDoItem;
+
+                // TODO Change selected background color in VisualState in Resource Dictionary
+            }
+            catch (Exception exception)
+            {
+                SendErrorMessage(exception);
+            }
+        }
     }
 }

@@ -4,7 +4,12 @@
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <Color x:Key="IntelliShiftLightBlue">#a5d8d9</Color>
-    <Color x:Key="IntelliShiftSteelBlue">#2e75ba</Color>
+    <Color x:Key="AquaIsland">#B0DFE1</Color>
+    <Color x:Key="MarinerBlue">#2D75ba</Color>
+    <Color x:Key="NevadaGray">#606668</Color>
+
+    <!-- Shark -->
+    <Color x:Key="BlackText">#242A2c</Color>
+    <Color x:Key="WhiteText">#FFFFFF</Color>
 
 </ResourceDictionary>

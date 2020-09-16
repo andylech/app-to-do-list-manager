@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using ToDoListManager.Data.Responses;
 using ToDoListManager.Models;
@@ -32,7 +33,8 @@ namespace ToDoListManager.PageModels
 
         public ToDoItem SelectedItem { get; set; }
 
-        public IList<ToDoItem> SelectedListItems { get; set; } = new List<ToDoItem>();
+        public ObservableCollection<ToDoItem> SelectedListItems { get; set; } =
+            new ObservableCollection<ToDoItem>();
 
         #endregion
 
@@ -51,36 +53,6 @@ namespace ToDoListManager.PageModels
         #region Commands
 
         #region Data Commands
-
-        #region LoadAllListItemsCommand
-
-        //public Command<bool> LoadAllListItemsCommand =>
-        //    new Command<bool>(async forceLatest =>
-        //        {
-        //            //var selectedListId = NavState.ListSelected?.Id;
-
-        //            //if (selectedListId == null)
-        //            //    return;
-
-        //            PageIsWaiting = true;
-        //            LoadAllListItemsCommand.ChangeCanExecute();
-
-        //            SelectedList =
-        //                await DataService.GetOneList(selectedListId, forceLatest);
-
-        //            var selectedListItemIds = NavState.ListSelected?.ItemIds;
-
-        //            // TODO Consolidate into GetOneList to avoid multiple API calls in real version
-        //            if (selectedListItemIds != null)
-        //                SelectedListItems =
-        //                   await DataService.GetListItems(selectedListItemIds);
-
-        //            PageIsWaiting = false;
-        //            LoadAllListItemsCommand.ChangeCanExecute();
-        //        },
-        //        forceLatest => !PageIsWaiting);
-
-        #endregion
 
         #region AddNewItemCommand
 
@@ -153,6 +125,49 @@ namespace ToDoListManager.PageModels
 
         #endregion
 
+        // DEV only - Use with caution!
+        #region ClearListItemsCacheCommand
+
+        public Command ClearListItemsCacheCommand =>
+            new Command(() =>
+                {
+                    PageIsWaiting = true;
+                    ClearListItemsCacheCommand.ChangeCanExecute();
+
+                    DataService.ClearListItems(SelectedList.ItemIds);
+
+                    SelectedListItems.Clear();
+
+                    PageIsWaiting = false;
+                    ClearListItemsCacheCommand.ChangeCanExecute();
+                },
+                () => !PageIsWaiting);
+
+        #endregion
+
+        // DEV only - Use with caution!
+        #region PopulateListItemsCacheCommand
+
+        public Command PopulateListItemsCacheCommand =>
+            new Command(async () =>
+                {
+                    PageIsWaiting = true;
+                    PopulateListItemsCacheCommand.ChangeCanExecute();
+
+                    DataService.PopulateTestListItems();
+
+                    var selectedList = await DataService.GetOneList(SelectedListId);
+                    SelectedListItems =
+                        new ObservableCollection<ToDoItem>(
+                            await DataService.GetListItems(selectedList.ItemIds));
+
+                    PageIsWaiting = false;
+                    PopulateListItemsCacheCommand.ChangeCanExecute();
+                },
+                () => !PageIsWaiting);
+
+        #endregion
+
         #endregion
 
         #region Navigation Commands
@@ -167,7 +182,7 @@ namespace ToDoListManager.PageModels
 
         #region Internal Methods
 
-        // TODO Rewrite after loading list items along with list
+        // TODO Rewrite later to load list items along with list
 
         internal async Task LoadSelectedList()
         {
@@ -203,7 +218,9 @@ namespace ToDoListManager.PageModels
             SelectedListId = selectedListId;
             await DataService.SaveSelectedListId(SelectedListId);
 
-            SelectedListItems = await DataService.GetListItems(SelectedList.ItemIds);
+            SelectedListItems =
+                new ObservableCollection<ToDoItem>(
+                    await DataService.GetListItems(SelectedList.ItemIds));
 
             PageIsWaiting = false;
         }

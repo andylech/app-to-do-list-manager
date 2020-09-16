@@ -4,8 +4,10 @@
 <pages:BasePage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:ToDoListManager.Data.Responses;assembly=ToDoListManager.Data"
     xmlns:pageModels="clr-namespace:ToDoListManager.PageModels"
     xmlns:pages="clr-namespace:ToDoListManager.Pages"
+    xmlns:system="clr-namespace:System;assembly=netstandard"
     x:Class="ToDoListManager.Pages.EditListsPage"
     x:DataType="pageModels:EditListsPageModel"
     x:TypeArguments="pageModels:EditListsPageModel">
@@ -21,8 +23,8 @@
             <!-- TODO <controls:PageHeader Grid.Row="0" />-->
 
             <Grid Grid.Row="0"
-                BackgroundColor="{StaticResource IntelliShiftSteelBlue}"
-                Padding="{StaticResource PageColumnPadding}">
+                BackgroundColor="{StaticResource MarinerBlue}"
+                ColumnSpacing="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition
                         Width="{StaticResource PageHeaderSideColumnWidth}" />
@@ -30,14 +32,16 @@
                         Width="{StaticResource PageHeaderCenterColumnWidth}" />
                     <ColumnDefinition
                         Width="{StaticResource PageHeaderSideColumnWidth}" />
+                    <!-- DEV -->
+                    <!--<ColumnDefinition
+                        Width="{StaticResource PageHeaderSideColumnWidth}" />-->
                 </Grid.ColumnDefinitions>
 
                 <!-- TEMP Replace with icon font character for backward arrow -->
                 <!-- &#60; = less-than sign -->
                 <Label Grid.Column="0"
                     Text="&#60;"
-                    Style="{StaticResource FakeButtonLabelStyle}"
-                    HorizontalOptions="Start">
+                    Style="{StaticResource LeftFakeButtonLabelStyle}">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer NumberOfTapsRequired="1"
                             Command="{Binding GoToEditListItemsPageCommand}" />
@@ -52,16 +56,40 @@
                 <!-- &#43; = plus sign -->
                 <Label Grid.Column="2"
                     Text="&#43;"
-                    Style="{StaticResource FakeButtonLabelStyle}"
-                    HorizontalOptions="End">
-                    <!--<Label.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1"
-                            Command="{Binding GoToEditListsPageCommand}" />
-                    </Label.GestureRecognizers>-->
+                    Style="{StaticResource RightFakeButtonLabelStyle}">
+                    <Label.GestureRecognizers>
+                        <!-- TODO Edit Item Overlay -->
+                        <!--<TapGestureRecognizer NumberOfTapsRequired="1"
+                            Command="{Binding PopulateListsCacheCommand}" />-->
+                    </Label.GestureRecognizers>
                 </Label>
+
+                <!-- DEV -->
+                <!--<Label Grid.Column="3"
+                    Text="X"
+                    Style="{StaticResource RightFakeButtonLabelStyle}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"
+                            Command="{Binding ClearListsCacheCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>-->
             </Grid>
 
             <!--  Row 1: Content  -->
+            <!--ItemsSource="{Binding }"-->
+            <CollectionView Grid.Row="1"
+                SelectionMode="Single"
+                BackgroundColor="{StaticResource AquaIsland}">
+                <CollectionView.ItemTemplate>
+                    <!-- TODO Change structure of list headers since can't bind to ValueTuple -->
+                    <!--<DataTemplate x:DataType="system:ValueTuple">
+                        <StackLayout Padding="{StaticResource PageColumnPadding}">
+                            <Label Text="{Binding Item1 }" />
+                        </StackLayout>
+                    </DataTemplate>-->
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
 
         </Grid>
     </ContentView>

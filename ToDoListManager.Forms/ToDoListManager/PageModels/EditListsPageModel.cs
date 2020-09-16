@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using ToDoListManager.Models;
 using ToDoListManager.Pages;
@@ -31,7 +32,8 @@ namespace ToDoListManager.PageModels
 
         #region Data Properties
 
-        private IList<ValueTuple<string, string>> ListHeaders { get; set; }
+        public ObservableCollection<ValueTuple<string, string>> ListHeaders { get; set; }
+            = new ObservableCollection<(string, string)>();
 
         #endregion
 
@@ -59,7 +61,8 @@ namespace ToDoListManager.PageModels
                     PageIsWaiting = true;
                     LoadAllListIdsCommand.ChangeCanExecute();
 
-                    ListHeaders = await DataService.GetAllListHeaders(forceLatest);
+                    var listHeaders = await DataService.GetAllListHeaders(forceLatest);
+                    ListHeaders = new ObservableCollection<(string, string)>(listHeaders);
 
                     PageIsWaiting = false;
                     LoadAllListIdsCommand.ChangeCanExecute();
@@ -85,7 +88,6 @@ namespace ToDoListManager.PageModels
 
         #endregion
 
-
         #region RenameListCommand
 
         public Command<string> RenameListCommand =>
@@ -102,6 +104,42 @@ namespace ToDoListManager.PageModels
                     RenameListCommand.ChangeCanExecute();
                 },
                 listName => !PageIsWaiting);
+
+        #endregion
+
+        // DEV only - Use with caution!
+        #region ClearListsCacheCommand
+
+        public Command ClearListsCacheCommand =>
+            new Command(() =>
+                {
+                    PageIsWaiting = true;
+                    ClearListsCacheCommand.ChangeCanExecute();
+
+                    DataService.ClearAllLists();
+
+                    PageIsWaiting = false;
+                    ClearListsCacheCommand.ChangeCanExecute();
+                },
+                () => !PageIsWaiting);
+
+        #endregion
+
+        // DEV only - Use with caution!
+        #region PopulateListsCacheCommand
+
+        public Command PopulateListsCacheCommand =>
+            new Command(() =>
+                {
+                    PageIsWaiting = true;
+                    PopulateListsCacheCommand.ChangeCanExecute();
+
+                    DataService.PopulateTestLists();
+
+                    PageIsWaiting = false;
+                    PopulateListsCacheCommand.ChangeCanExecute();
+                },
+                () => !PageIsWaiting);
 
         #endregion
 

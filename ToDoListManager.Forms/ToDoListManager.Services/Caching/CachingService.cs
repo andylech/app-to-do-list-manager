@@ -228,7 +228,7 @@ namespace ToDoListManager.Services.Caching
         }
 
         // Akavache: Deletes all items (regardless if they are objects or not)
-        private static async Task<Unit> InvalidateAll(Location location)
+        public static async Task<Unit> InvalidateAll(Location location)
         {
             try
             {

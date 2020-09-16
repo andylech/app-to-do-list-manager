@@ -4,6 +4,7 @@
 <pages:BasePage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:ToDoListManager.Data.Responses;assembly=ToDoListManager.Data"
     xmlns:pageModels="clr-namespace:ToDoListManager.PageModels"
     xmlns:pages="clr-namespace:ToDoListManager.Pages"
     x:Class="ToDoListManager.Pages.EditListItemsPage"
@@ -21,8 +22,8 @@
             <!-- TODO <controls:PageHeader Grid.Row="0" />-->
 
             <Grid Grid.Row="0"
-                BackgroundColor="{StaticResource IntelliShiftSteelBlue}"
-                Padding="{StaticResource PageColumnPadding}">
+                BackgroundColor="{StaticResource MarinerBlue}"
+                ColumnSpacing="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition
                         Width="{StaticResource PageHeaderSideColumnWidth}" />
@@ -30,14 +31,16 @@
                         Width="{StaticResource PageHeaderCenterColumnWidth}" />
                     <ColumnDefinition
                         Width="{StaticResource PageHeaderSideColumnWidth}" />
+                    <!-- DEV -->
+                    <!--<ColumnDefinition
+                        Width="{StaticResource PageHeaderSideColumnWidth}" />-->
                 </Grid.ColumnDefinitions>
 
                 <!-- TEMP Replace with icon font character for hamburger menu -->
                 <!-- &#61; = equals sign -->
                 <Label Grid.Column="0"
                     Text="&#61;"
-                    Style="{StaticResource FakeButtonLabelStyle}"
-                    HorizontalOptions="Start">
+                    Style="{StaticResource LeftFakeButtonLabelStyle}">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer NumberOfTapsRequired="1"
                             Command="{Binding GoToEditListsPageCommand}" />
@@ -52,16 +55,58 @@
                 <!-- &#43; = plus sign -->
                 <Label Grid.Column="2"
                     Text="&#43;"
-                    Style="{StaticResource FakeButtonLabelStyle}"
-                    HorizontalOptions="End">
-                    <!--<Label.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1"
-                            Command="{Binding GoToEditListsPageCommand}" />
-                    </Label.GestureRecognizers>-->
+                    Style="{StaticResource RightFakeButtonLabelStyle}">
+                    <Label.GestureRecognizers>
+                        <!-- TODO Edit Item Overlay -->
+                        <!--<TapGestureRecognizer NumberOfTapsRequired="1"
+                            Command="{Binding PopulateListItemsCacheCommand}" />-->
+                    </Label.GestureRecognizers>
                 </Label>
+
+                <!-- DEV -->
+                <!--<Label Grid.Column="3"
+                    Text="X"
+                    Style="{StaticResource RightFakeButtonLabelStyle}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"
+                            Command="{Binding ClearListItemsCacheCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>-->
             </Grid>
 
             <!--  Row 1: Content  -->
+            <!--SelectionChanged="SelectableItemsView_OnSelectionChanged"-->
+            <CollectionView Grid.Row="1"
+                BackgroundColor="{StaticResource AquaIsland}"
+                ItemsSource="{Binding SelectedListItems}"
+                ItemsUpdatingScrollMode="KeepLastItemInView"
+                SelectionMode="Single"
+                SelectionChanged="SelectableItemsView_OnSelectionChanged">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:ToDoItem">
+                        <StackLayout Spacing="0">
+                            <StackLayout Orientation="Horizontal"
+                                Padding="{StaticResource PageColumnPadding}"
+                                Spacing="0">
+                                <!-- TODO Temp until can figure out how to get outer item id from CheckBox -->
+                                <!-- CheckedChanged="CheckBox_OnCheckedChanged" -->
+                                <!-- IsEnabled="False" -->
+                                <CheckBox Color="{StaticResource MarinerBlue}"
+                                    IsEnabled="False" />
+                                <Label Text="{Binding Text}"
+                                    Style="{StaticResource MemberLabelStyle}"/>
+                            </StackLayout>
+                            <BoxView HeightRequest="1"
+                                Color="{StaticResource NevadaGray}" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Row 1: Input Overlay -->
+            <StackLayout Grid.Row="1" IsVisible="False" IsEnabled="False">
+                <!-- TODO -->
+            </StackLayout>
 
         </Grid>
     </ContentView>

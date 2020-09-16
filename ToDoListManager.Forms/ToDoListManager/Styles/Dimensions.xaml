@@ -6,9 +6,11 @@
 
     <!-- Grids -->
     <GridLength x:Key="PageHeaderRowHeight">60</GridLength>
-    <GridLength x:Key="PageHeaderCenterColumnWidth">80*</GridLength>
-    <GridLength x:Key="PageHeaderSideColumnWidth">10*</GridLength>
+    <!-- DEV <GridLength x:Key="PageHeaderCenterColumnWidth">70*</GridLength>-->
+    <GridLength x:Key="PageHeaderCenterColumnWidth">60*</GridLength>
+    <GridLength x:Key="PageHeaderSideColumnWidth">20*</GridLength>
 
     <!-- Page -->
+    <Thickness x:Key="MemberPadding">10</Thickness>
     <Thickness x:Key="PageColumnPadding">20,0</Thickness>
 </ResourceDictionary>
