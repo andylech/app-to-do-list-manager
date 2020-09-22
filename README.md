@@ -11,28 +11,29 @@ A sample to-do list manager in Xamarin.Forms showing off ViewModel navigation an
 * PageModel (ViewModel) navigation
 * Common navigation router
 * Page (View) type for navigation logic
-* Mock API layer for development and testing
+* **TODO**
+
+### Interim Features
+* Mock API layer with [SQLite](https://sqlite.org/index.html) for development and testing
 * **TODO**
 
 ### Future Features
 
 * [SignalR](https://dotnet.microsoft.com/apps/aspnet/signalr) API for multi-device synchronization
+* **TODO**
 
 ### Issue Tracking
 
 The status of the project can be viewed here:
 https://app.gitkraken.com/glo/board/X2f4NyQxbQAR8Ttx
 
-
-### Requirements
-* **TODO**
-
 ### Dependencies
 
 <!-- * [FancyLogger](https://github.com/xamarinfiles/library-fancy-logger): My own NuGet for formatting output, particularly to DEBUG, so it won't be lost in the clutter of Android logs in particular.  Also, works well with [VSColorOutput](https://mike-ward.net/vscoloroutput/). -->
 * **TODO**
 
-
+### Requirements
+* **TODO**
 
 ---
 
